@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Trending Topics</title>
+</head>
+<body>
+    <h1>Trending Topics Fetcher</h1>
+    <button id="fetchButton">Fetch Trending Topics</button>
+    
+    <div id="results"></div>
+
+    <script>
+        document.getElementById("fetchButton").addEventListener("click", function() {
+            fetch("/fetch-and-get-data")
+                .then(response => response.json())
+                .then(data => {
+                    let resultsDiv = document.getElementById("results");
+                    if (data.error) {
+                        resultsDiv.innerHTML = `Error: ${data.error}`;
+                    } else {
+                        resultsDiv.innerHTML = `
+                            <p><strong>Unique ID:</strong> ${data.unique_id}</p>
+                            <p><strong>Trend 1:</strong> ${data.trend1}</p>
+                            <p><strong>Trend 2:</strong> ${data.trend2}</p>
+                            <p><strong>Trend 3:</strong> ${data.trend3}</p>
+                            <p><strong>Trend 4:</strong> ${data.trend4}</p>
+                            <p><strong>Trend 5:</strong> ${data.trend5}</p>
+                            <p><strong>End Time:</strong> ${data.end_time}</p>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    document.getElementById("results").innerHTML = `Error: ${error.message}`;
+                });
+        });
+    </script>
+</body>
+</html>
